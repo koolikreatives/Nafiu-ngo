@@ -12,7 +12,7 @@ function Link({ to, ...props }: { to: string; [key: string]: any }) {
 
 const landingPageData = {
   organization: {
-    name: "Nafiu Community Cool Base",
+    name: "Nafiu Confidential Cool Base",
     background:
       "Nafiu Community Cool Base is a membership-based Muslim community organization that brings people together through faith, fellowship, mutual support, and service. We create a dependable network where members and supporters can contribute to the wellbeing and progress of the wider community.",
     mission:
