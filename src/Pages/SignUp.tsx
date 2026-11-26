@@ -2,14 +2,15 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { API_ENDPOINTS } from "../config/apiEndpoints";
+import { useToast } from "../context/ToastContext";
 
 // =====================================================
 // API CONFIGURATION
-// Paste your backend registration endpoint here.
-// Example: https://your-backend.onrender.com/api/register
+// Managed centrally in src/config/apiEndpoints.ts
 // =====================================================
 
-const REGISTER_API_URL: string = "https://nafiu.onrender.com/api/v1/auth/register";
+const REGISTER_API_URL: string = API_ENDPOINTS.auth.register;
 
 interface RegistrationForm {
   firstName: string;
@@ -30,6 +31,7 @@ interface RegisterResponse {
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [formData, setFormData] = useState<RegistrationForm>({
     firstName: "",
     lastName: "",
@@ -143,6 +145,12 @@ export default function RegisterPage() {
       });
 
       setAgreeToTerms(false);
+      toast.success(
+        "Account created",
+        data.memberId
+          ? `Your Member ID is ${data.memberId}. Please sign in.`
+          : "Registration successful. Please sign in."
+      );
       navigate("/login", {
         replace: true,
         state: {

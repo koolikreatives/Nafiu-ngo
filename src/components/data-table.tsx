@@ -473,9 +473,9 @@ export function DataTable({
               </TableHeader>
               <TableBody className="**:data-[slot=table-cell]:first:w-8">
                 {table.getRowModel().rows?.length ? (
-                  {table.getRowModel().rows.map((row) => (
+                  table.getRowModel().rows.map((row) => (
                     <DraggableRow key={row.id} row={row} onReorder={handleReorder} />
-                  ))}
+                  ))
                 ) : (
                   <TableRow>
                     <TableCell

@@ -1,8 +1,11 @@
 import { useState, type FormEvent } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { API_ENDPOINTS } from "../config/apiEndpoints";
+import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 
-const LOGIN_API_URL = "https://nafiu.onrender.com/api/v1/auth/login";
+const LOGIN_API_URL = API_ENDPOINTS.auth.login;
 const LOGIN_IMAGE_URL =
   "https://res.cloudinary.com/exstf7ai/image/upload/v1794904195/mu.jpg";
 
@@ -16,6 +19,9 @@ interface LoginLocationState {
 
 export default function Login() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { setSessionFromLogin, loginAsDemo } = useAuth();
+  const { toast } = useToast();
   const registrationState = location.state as LoginLocationState | null;
   const [accountType, setAccountType] = useState<AccountType>("member");
   const [email, setEmail] = useState(registrationState?.email || "");
@@ -59,15 +65,34 @@ export default function Login() {
         );
       }
 
+      const loggedInUser = setSessionFromLogin({
+        apiResponse: data,
+        fallbackRole: accountType,
+        email: email.trim(),
+        rememberMe,
+      });
+
       setMessage(data.message || "Login successful.");
       setMessageType("success");
+      toast.success(
+        `Welcome back, ${loggedInUser.firstName}`,
+        loggedInUser.role === "administrator"
+          ? "Signed in to Admin Workspace."
+          : "Signed in to Member Portal."
+      );
+
+      navigate(
+        loggedInUser.role === "administrator" ? "/admin" : "/dashboard",
+        { replace: true }
+      );
     } catch (error) {
-      setMessage(
+      const errMsg =
         error instanceof Error
           ? error.message
-          : "Something went wrong. Please try again."
-      );
+          : "Something went wrong. Please try again.";
+      setMessage(errMsg);
       setMessageType("error");
+      toast.error("Sign in failed", errMsg);
     } finally {
       setLoading(false);
     }
@@ -238,6 +263,37 @@ export default function Login() {
               {loading ? "Signing in..." : isAdministrator ? "Sign in to admin" : "Sign in"}
             </button>
           </form>
+
+          {/* Preview shortcuts while backend login is being finalized */}
+          <div className="mt-4 rounded-lg border border-dashed border-gray-200 bg-white p-3">
+            <p className="mb-2 font-['DM_Sans'] text-[10px] text-zinc-500">
+              Preview dashboards while backend login is in progress:
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  loginAsDemo("member");
+                  toast.info("Member Portal preview", "Signed in as Issah Mohammed.");
+                  navigate("/dashboard");
+                }}
+                className="rounded-md border border-teal-900/20 bg-teal-900/5 px-3 py-2 font-['Manrope'] text-[11px] font-bold text-teal-900 transition hover:bg-teal-900/10"
+              >
+                Member Portal
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  loginAsDemo("administrator");
+                  toast.info("Admin Workspace preview", "Signed in as Amina Abdullahi.");
+                  navigate("/admin");
+                }}
+                className="rounded-md border border-orange-400/30 bg-orange-50 px-3 py-2 font-['Manrope'] text-[11px] font-bold text-orange-600 transition hover:bg-orange-100"
+              >
+                Admin Workspace
+              </button>
+            </div>
+          </div>
 
           <p className="mt-[20px] text-center font-['DM_Sans'] text-[10px] leading-4 text-zinc-500 min-[850px]:mt-[clamp(12px,1.85vh,20px)]">
             or

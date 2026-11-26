@@ -104,6 +104,9 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
 
+  --color-desktop: var(--primary);
+  --color-mobile: var(--accent);
+
   --radius: 0.625rem;
 
   /* Sidebar */
@@ -156,6 +159,9 @@
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
+  --color-desktop: var(--primary);
+  --color-mobile: var(--accent);
 
   /* Sidebar */
   --sidebar: oklch(0.205 0 0);
