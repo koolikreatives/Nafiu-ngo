@@ -1,6 +1,10 @@
+import type { AnchorHTMLAttributes } from "react"
 import Navbar from "../component/Navbar";
 
-function Link({ to, ...props }: { to: string; [key: string]: any }) {
+function Link({
+  to,
+  ...props
+}: { to: string } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">) {
   return <a href={to} {...props} />;
 }
 

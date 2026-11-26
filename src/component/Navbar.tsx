@@ -1,48 +1,47 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+function LandingBrand({ light = false }: { light?: boolean }) {
+  return (
+    <Link
+      to="/"
+      className="flex items-center gap-3 no-underline"
+      aria-label="Nafiu Community home"
+    >
+      <svg
+        className="size-11 shrink-0"
+        viewBox="0 0 48 48"
+        role="img"
+        aria-label="Heart-shaped community logo"
+      >
+        <g
+          fill="none"
+          stroke="#e96f48"
+          strokeWidth="2.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M24 41C18.2 36.5 7 29.1 7 18.7 7 12.1 12.1 8.7 16.9 10.2 20.1 11.2 22.2 14.2 24 17.2 25.8 14.2 27.9 11.2 31.1 10.2 35.9 8.7 41 12.1 41 18.7 41 29.1 29.8 36.5 24 41Z" />
+          <path d="m9.2 20.4 7.5 5.6 4.6-3.8c1.5-1.2 3.6-1.2 5.1 0l3.7 3 8.7-5.1M16.7 26l3.7 3.5c.9.9 2.2.9 3.1 0l1.1-1.1 1.5 1.3c.9.8 2.2.7 3-.1l1-1.1 1.1.7c1 .7 2.4.4 3-.6l.9-1.4" />
+        </g>
+      </svg>
+
+      <span className={light ? "text-white" : "text-[#174f43]"}>
+        <strong className="block font-[Manrope] text-lg leading-none tracking-tight">
+          NAFIU
+        </strong>
+        <small className="mt-1 block text-[8px] font-bold tracking-[0.22em] opacity-65">
+          COMMUNITY COOL BASE
+        </small>
+      </span>
+    </Link>
+  );
+}
+
 function LandingNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
-
-
-  function LandingBrand({ light = false }: { light?: boolean }) {
-    return (
-      <Link
-        to="/"
-        className="flex items-center gap-3 no-underline"
-        aria-label="Nafiu Community home"
-      >
-        <svg
-          className="size-11 shrink-0"
-          viewBox="0 0 48 48"
-          role="img"
-          aria-label="Heart-shaped community logo"
-        >
-          <g
-            fill="none"
-            stroke="#e96f48"
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M24 41C18.2 36.5 7 29.1 7 18.7 7 12.1 12.1 8.7 16.9 10.2 20.1 11.2 22.2 14.2 24 17.2 25.8 14.2 27.9 11.2 31.1 10.2 35.9 8.7 41 12.1 41 18.7 41 29.1 29.8 36.5 24 41Z" />
-            <path d="m9.2 20.4 7.5 5.6 4.6-3.8c1.5-1.2 3.6-1.2 5.1 0l3.7 3 8.7-5.1M16.7 26l3.7 3.5c.9.9 2.2.9 3.1 0l1.1-1.1 1.5 1.3c.9.8 2.2.7 3-.1l1-1.1 1.1.7c1 .7 2.4.4 3-.6l.9-1.4" />
-          </g>
-        </svg>
-
-        <span className={light ? "text-white" : "text-[#174f43]"}>
-          <strong className="block font-[Manrope] text-lg leading-none tracking-tight">
-            NAFIU
-          </strong>
-          <small className="mt-1 block text-[8px] font-bold tracking-[0.22em] opacity-65">
-            COMMUNITY COOL BASE
-          </small>
-        </span>
-      </Link>
-    );
-  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#e5ebe7] bg-white/95 backdrop-blur">
